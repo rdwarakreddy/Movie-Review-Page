@@ -3,8 +3,8 @@
 
 ## **Setting Up the Project Locally**
 1. **Clone the Repository from GitHub**
-    - git clone <repository-url>
-    - cd <project-folder>
+    - git clone repository-url
+    - cd project-folder
 2. ** Open the Project Folder**
     - cd <path-to-manage.py>.
 3. **Set Up a Virtual Environment**
