@@ -1,23 +1,23 @@
 # Movie-Review-Page
 
 
-Setting Up the Project Locally
-Follow these steps to set up and run the project on your local machine using PowerShell:
-step 1 : Clone the Repository from GitHub
-git clone <repository-url>
-cd <project-folder>
-step 2: Open the Project Folder
-cd <path-to-manage.py>
-step 3 : Set Up a Virtual Environment
-python -m venv env
-.\env\Scripts\activate
-step 4 : Install Required Packages
-pip install django
-pip install Pillow
-step 5 :  Run the Development Server
-python manage.py runserver
-step 6 : Access the Website
-http://127.0.0.1:8000
+## **Setting Up the Project Locally**
+1. **Clone the Repository from GitHub**
+    - git clone <repository-url>
+    - cd <project-folder>.
+2. ** Open the Project Folder**
+    - cd <path-to-manage.py>.
+3. **Set Up a Virtual Environment**
+    - python -m venv env
+    -.\env\Scripts\activate.
+4. **Install the Required Packages**
+    - pip install django
+    -pip install Pillow.
+5. **Run the Development Server**
+    - python manage.py runserver
+6. **Access the website**
+    - http://127.0.0.1:8000
+
 ## **Features Implemented**
 
 1. **User Authentication**
