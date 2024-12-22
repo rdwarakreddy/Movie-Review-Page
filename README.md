@@ -61,13 +61,32 @@
 2. Add analytics to display average ratings for each movie.
 
 
-
-![Home Page](https://github.com/user-attachments/assets/65541297-078a-4b5d-ace0-a106f8daf64d)
-![page2](https://github.com/user-attachments/assets/99e9055c-cadd-443c-9cc1-adc31ab4c7f4)
+## **SnapShots**
 
 
 
-![Page 3](https://github.com/user-attachments/assets/784d9eb9-a74e-475a-822e-892318d35b04)
-![page 4](https://github.com/user-attachments/assets/acfb2803-149d-4ef9-91cb-2f755125660d)
+![regpage](https://github.com/user-attachments/assets/990b327c-d454-4e6a-b509-fc7c161f2a3f)
+
+![Loginpahe](https://github.com/user-attachments/assets/07f4359e-97f7-4bb5-a036-2e0d62400e2d)
+
+![Home Page](https://github.com/user-attachments/assets/cd4201b8-75c6-4c08-b58a-b59d613bc6d3)
+
+![page2](https://github.com/user-attachments/assets/79c30fe0-c3fc-4c24-adb3-525c5c0a93c8)
+
+![Page 3](https://github.com/user-attachments/assets/c98390c4-6769-4bd6-bd33-ca4f425b2942)
+
+![page 4](https://github.com/user-attachments/assets/619986f1-d886-4659-beef-812a76295d76)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
