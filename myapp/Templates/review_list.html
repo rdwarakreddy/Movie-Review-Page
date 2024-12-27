@@ -69,38 +69,99 @@
             padding: 1rem 1.5rem;
             transition: all 0.3s ease;
         }
+
+        /* Updated Grid Layout */
         .review-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             padding: 2rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
+        /* New Card Styles */
         .review-card {
-            border: none;
-            border-radius: 15px;
+            position: relative;
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background: #fff;
         }
+
         .review-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
 
-        .review-card img {
-            height: 250px;
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 4px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .rating i {
+            color: #ffd700;
+        }
+
+        .rating span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 350px;
             object-fit: cover;
+            transition: all 0.3s ease;
         }
-        .review-card-body {
-            padding: 1rem;
-            background: white;
+
+        .review-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
         }
-        .review-stats {
+
+        .review-header {
             display: flex;
             justify-content: space-between;
-            color: var(--text-color);
-            opacity: 0.7;
+            align-items: center;
+            margin-bottom: 0.5rem;
         }
+
+        .movie-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: white;
+        }
+
+        .review-stats {
+            display: flex;
+            gap: 1rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .review-stats i {
+            margin-right: 4px;
+        }
+
         .footer {
             background: var(--text-color);
             color: white;
@@ -116,13 +177,33 @@
         .footer a:hover {
             color: white;
         }
+
+        @media (max-width: 992px) {
+            .review-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-img-top {
+                height: 300px;
+            }
+            
+            .movie-title {
+                font-size: 1.1rem;
+            }
+
+            .rating span {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    
-
     <!-- Search Container -->
     <div class="container search-container">
         <div class="search-bar">
@@ -134,7 +215,7 @@
                     placeholder="Search movies, genres, reviews..."
                     class="form-control me-2 border-0"
                 />
-                <button type="submit" class="btn  pill">
+                <button type="submit" class="btn pill">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
@@ -145,40 +226,36 @@
     <div class="container">
         <div class="review-grid">
             {% for review in reviews %}
-            <div class="card review-card">
-                <a href="{% url 'review_detail' review.id %}">
+            <div class="review-card">
+                <a href="{% url 'review_detail' name=review.movie_name %}" class="card-link">
                     <img src="{{ review.photo.url }}" class="card-img-top" alt="{{ review.movie_name }} poster">
-                </a>
-                <div class="card-body review-card-body">
-                    <h5 class="card-title">{{ review.movie_name }}</h5>
-                    <div class="review-stats">
-                        <small><i class="fas fa-thumbs-up text-primary"></i> {{ review.like_count }}</small>
-                        <small><i class="fas fa-comment text-secondary"></i> {{ review.comment_count }}</small>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <h5 class="movie-title">{{ review.movie_name }}</h5>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>{{ review.average_rating|floatformat:1 }}/5</span>
+                            </div>
+                        </div>
+                        <div class="review-stats">
+                            <span><i class="fas fa-thumbs-up"></i>{{ review.like_count }}</span>
+                            <span><i class="fas fa-comment"></i>{{ review.comment_count }}</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             {% empty %}
-            <div class="col-12 text-center py-5">
-                <p class="text-muted">No reviews available. Be the first to write one!</p>
-            </div>
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">No reviews available. Be the first to write one!</p>
+                </div>
             {% endfor %}
+
+
         </div>
     </div>
-
-    <!-- Footer -->
-    <!-- <footer class="footer text-center">
-        <div class="container">
-            <p>&copy; 2024 CinemaScribe. Crafted with <i class="fas fa-heart text-danger"></i> by Movie Enthusiasts.</p>
-            <div class="social-links mt-3">
-                <a href="#" class="mx-2"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="mx-2"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="mx-2"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </footer> -->
-    {% endblock %}
 
     <!-- JavaScript Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+{% endblock %}
