@@ -1,103 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container movie-details-container">
-    <div class="row g-4">
-        <!-- Movie Poster Section -->
-        <div class="col-lg-4">
-            <div class="movie-poster-card shadow-sm">
-                {% if movie_review.photo %}
-                    <img src="{{ movie_review.photo.url }}" alt="{{ movie_review.movie_name }} Poster" class="img-fluid rounded-3">
-                {% else %}
-                    <div class="placeholder-poster d-flex align-items-center justify-content-center rounded-3">
-                        <span class="text-muted">No Poster Available</span>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- Movie Information Section -->
-        <div class="col-lg-5">
-            <div class="movie-info-card shadow-sm h-100">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <h2 class="movie-title">{{ movie_review.movie_name }}</h2>
-                    <form method="post" action="" class="like-action">
-                        {% csrf_token %}
-                        <button type="submit" name="like" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-thumbs-up me-1"></i>{{ likes }}
-                        </button>
-                    </form>
-                </div>
-
-                <div class="movie-meta mb-3">
-                    <div class="rating mb-2">
-                        <span class="badge bg-warning text-dark">
-                            <i class="fas fa-star me-1"></i>{{ movie_review.rating }}/5
-                        </span>
-                    </div>
-
-                    <div class="review-details">
-                        <h5 class="text-muted">Review</h5>
-                        <p class="review-text">{{ movie_review.review }}</p>
-                    </div>
-
-                    <div class="reviewer-info mt-3">
-                        <small class="text-muted">
-                            <i class="fas fa-user me-2"></i>Reviewed by {{ movie_review.user.username }}
-                        </small>
-                    </div>
-                </div>
-
-                <div class="movie-stats d-flex justify-content-between border-top pt-3">
-                    <div class="stat">
-                        <i class="fas fa-thumbs-up text-primary me-2"></i>
-                        <span>{{ likes }} Likes</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-comment text-secondary me-2"></i>
-                        <span>{{ comments|length }} Comments</span>
-                    </div>
+<div class="movie-details-wrapper">
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Movie Poster Column -->
+            <div class="col-lg-6">
+                <div class="poster-wrapper">
+                    {% if movie_review.photo %}
+                        <img 
+                            src="{{ movie_review.photo.url }}" 
+                            alt="{{ movie_review.movie_name }} Poster" 
+                            class="movie-poster"
+                        >
+                    {% else %}
+                        <div class="poster-placeholder">
+                            <i class="fas fa-film fa-3x mb-3"></i>
+                            <span>No Poster Available</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
 
-        <!-- Comments Section -->
-        <div class="col-lg-3">
-            <div class="comments-section shadow-sm">
-                <h4 class="section-title">Comments</h4>
-                
-                <!-- Comment Input -->
-                <form method="post" action="" class="comment-form mb-3">
-                    {% csrf_token %}
-                    <div class="form-floating">
-                        <textarea 
-                            name="content" 
-                            class="form-control" 
-                            placeholder="Leave a comment here" 
-                            id="commentTextarea"
-                        ></textarea>
-                        <label for="commentTextarea">Your Comment</label>
+            <!-- Reviews Column -->
+            <div class="col-lg-6">
+                <div class="reviews-container">
+                    <div class="reviews-header">
+                        <div class="rating-badge">
+                            <i class="fas fa-star"></i>
+                            <span>{{ average_rating|floatformat:1 }}</span>
+                        </div>
+                        <h3>Reviews</h3>
                     </div>
-                    <button type="submit" name="comment" class="btn btn-primary w-100 mt-2">
-                        Add Comment
-                    </button>
-                </form>
 
-                <!-- Comments List -->
-                <div class="comments-list">
-                    {% for comment in comments %}
-                        <div class="comment-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <strong class="comment-username">{{ comment.user.username }}</strong>
-                                <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
+                    <div class="reviews-content">
+                        {% for review in all_reviews %}
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <div class="avatar">
+                                            {{ review.user.username|make_list|first|upper }}
+                                        </div>
+                                        <span class="username">{{ review.user.username }}</span>
+                                    </div>
+                                    <div class="review-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>{{ review.rating }}</span>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    {{ review.review }}
+                                </div>
                             </div>
-                            <p class="comment-text mt-1">{{ comment.content }}</p>
-                        </div>
-                    {% empty %}
-                        <div class="text-center text-muted py-3">
-                            No comments yet. Be the first to comment!
-                        </div>
-                    {% endfor %}
+                        {% empty %}
+                            <div class="empty-reviews">
+                                <i class="fas fa-comments fa-3x mb-3"></i>
+                                <p>No reviews yet. Be the first to share your thoughts!</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,79 +66,181 @@
 </div>
 
 <style>
-    body {
+    .movie-details-wrapper {
         background-color: #f8f9fa;
+        min-height: 100vh;
     }
 
-    .movie-details-container {
-        padding-top: 2rem;
-    }
+    /* Poster Styles */
+    .poster-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: rgb(10, 9, 9);
+    width: 500px;  /* Adjust the width as per your design */
+    height: 550px; /* Adjust the height as per your design */
+}
 
-    .movie-poster-card,
-    .movie-info-card,
-    .comments-section {
-        background-color: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-    }
 
-    .movie-poster-card img {
+    .movie-poster {
         width: 100%;
-        height: 500px;
+        height: auto;
+        aspect-ratio: 2/3;
         object-fit: cover;
+        display: block;
     }
 
-    .placeholder-poster {
-        height: 500px;
-        background-color: #e9ecef;
+    .poster-placeholder {
+        aspect-ratio: 2/3;
+        background: linear-gradient(145deg, #e6e9ef, #ffffff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
     }
 
-    .movie-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: #333;
+    /* Reviews Container Styles */
+    .reviews-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        height: 100%;
     }
 
-    .review-text {
-        line-height: 1.6;
+    .reviews-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
     }
 
-    .comments-section {
-        max-height: 700px;
+    .reviews-header h3 {
+        margin: 0;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    .rating-badge {
+        background: #ffd43b;
+        color: #2d3436;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+    }
+
+    .reviews-content {
+        padding: 1.5rem;
+        max-height: 600px;
         overflow-y: auto;
     }
 
-    .comment-item {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 0.75rem;
+    /* Review Card Styles */
+    .review-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
     }
 
-    .comment-form textarea {
-        height: 120px;
-        resize: none;
+    .review-card:last-child {
+        margin-bottom: 0;
     }
 
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .reviewer-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        background: #4834d4;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .username {
+        font-weight: 500;
+        color: #2d3436;
+    }
+
+    .review-rating {
+        background: #ffd43b;
+        color: #2d3436;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .review-body {
+        color: #4a4a4a;
+        line-height: 1.6;
+    }
+
+    .empty-reviews {
+        text-align: center;
+        color: #6c757d;
+        padding: 3rem 1rem;
+    }
+
+    /* Custom Scrollbar */
+    .reviews-content::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .reviews-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .reviews-content::-webkit-scrollbar-thumb {
+        background: #cecece;
+        border-radius: 4px;
+    }
+
+    .reviews-content::-webkit-scrollbar-thumb:hover {
+        background: #bababa;
+    }
+
+    /* Responsive Adjustments */
     @media (max-width: 991px) {
-        .movie-poster-card img,
-        .placeholder-poster {
-            height: 400px;
+        .reviews-content {
+            max-height: 500px;
         }
     }
 
     @media (max-width: 767px) {
-        .movie-details-container {
-            padding-top: 1rem;
+        .reviews-header {
+            padding: 1rem;
         }
 
-        .movie-poster-card img,
-        .placeholder-poster {
-            height: 300px;
+        .reviews-content {
+            padding: 1rem;
         }
 
-        .movie-title {
-            font-size: 1.8rem;
+        .review-card {
+            padding: 1rem;
         }
     }
 </style>
