@@ -8,9 +8,13 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('add-review/', views.add_review, name='add_review'),
     path('review_list/', views.all_reviews, name='review_list'),
+<<<<<<< HEAD
     # In your `urls.py`
     path('reviews/<str:name>/', views.detail, name='review_detail'),
 
+=======
+    path('reviews/<int:id>/',views.detail,name = 'review_detail'),
+>>>>>>> b0f25a95475018487945e2e5370fe479f7e2e6aa
     path('dashboard/',views.dashboard,name = "dashboard"),
     path('edit_review/<int:id>/',views.edit_review,name = "edit_review"),
     path('delete_review/<int:id>/',views.delete_review,name = "delete_review"),

@@ -23,4 +23,8 @@ class Comment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     review = models.ForeignKey(MovieReview,on_delete=models.CASCADE)
     content = models.TextField()
+<<<<<<< HEAD
     created_at = models.DateTimeField(auto_now=True)
+=======
+    created_at = models.DateTimeField(auto_now=True)
+>>>>>>> b0f25a95475018487945e2e5370fe479f7e2e6aa

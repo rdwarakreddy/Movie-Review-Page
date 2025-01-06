@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django.contrib.sites',
+=======
+    # 'django.contrib.sites',
+>>>>>>> b0f25a95475018487945e2e5370fe479f7e2e6aa
     'myapp',
 ]
 
@@ -77,12 +81,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'backendcourse',
         'USER': 'mysuperuser',
         'PASSWORD': 'Mawa2003',
         'HOST': 'backendcourse.c5gmcgcy0l2k.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
+=======
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+>>>>>>> b0f25a95475018487945e2e5370fe479f7e2e6aa
     }
 }
 
