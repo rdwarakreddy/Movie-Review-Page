@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="movie-details-wrapper">
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Movie Poster Column -->
+            <div class="col-lg-6">
+                <div class="poster-wrapper">
+                    {% if movie_review.photo %}
+                        <img 
+                            src="{{ movie_review.photo.url }}" 
+                            alt="{{ movie_review.movie_name }} Poster" 
+                            class="movie-poster"
+                        >
+                    {% else %}
+                        <div class="poster-placeholder">
+                            <i class="fas fa-film fa-3x mb-3"></i>
+                            <span>No Poster Available</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Reviews Column -->
+            <div class="col-lg-6">
+                <div class="reviews-container">
+                    <div class="reviews-header">
+                        <div class="rating-badge">
+                            <i class="fas fa-star"></i>
+                            <span>{{ average_rating|floatformat:1 }}</span>
+                        </div>
+                        <h3>Reviews</h3>
+                    </div>
+
+                    <div class="reviews-content">
+                        {% for review in all_reviews %}
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <div class="avatar">
+                                            {{ review.user.username|make_list|first|upper }}
+                                        </div>
+                                        <span class="username">{{ review.user.username }}</span>
+                                    </div>
+                                    <div class="review-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>{{ review.rating }}</span>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    {{ review.review }}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="empty-reviews">
+                                <i class="fas fa-comments fa-3x mb-3"></i>
+                                <p>No reviews yet. Be the first to share your thoughts!</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .movie-details-wrapper {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    /* Poster Styles */
+    .poster-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: rgb(10, 9, 9);
+    width: 500px;  /* Adjust the width as per your design */
+    height: 550px; /* Adjust the height as per your design */
+}
+
+
+    .movie-poster {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        display: block;
+    }
+
+    .poster-placeholder {
+        aspect-ratio: 2/3;
+        background: linear-gradient(145deg, #e6e9ef, #ffffff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+    }
+
+    /* Reviews Container Styles */
+    .reviews-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+    .reviews-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .reviews-header h3 {
+        margin: 0;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    .rating-badge {
+        background: #ffd43b;
+        color: #2d3436;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+    }
+
+    .reviews-content {
+        padding: 1.5rem;
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    /* Review Card Styles */
+    .review-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .review-card:last-child {
+        margin-bottom: 0;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .reviewer-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        background: #4834d4;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .username {
+        font-weight: 500;
+        color: #2d3436;
+    }
+
+    .review-rating {
+        background: #ffd43b;
+        color: #2d3436;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .review-body {
+        color: #4a4a4a;
+        line-height: 1.6;
+    }
+
+    .empty-reviews {
+        text-align: center;
+        color: #6c757d;
+        padding: 3rem 1rem;
+    }
+
+    /* Custom Scrollbar */
+    .reviews-content::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .reviews-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .reviews-content::-webkit-scrollbar-thumb {
+        background: #cecece;
+        border-radius: 4px;
+    }
+
+    .reviews-content::-webkit-scrollbar-thumb:hover {
+        background: #bababa;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .reviews-content {
+            max-height: 500px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .reviews-header {
+            padding: 1rem;
+        }
+
+        .reviews-content {
+            padding: 1rem;
+        }
+
+        .review-card {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}

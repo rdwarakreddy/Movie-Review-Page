@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="professional-form-container shadow-lg rounded-4 overflow-hidden">
+                <div class="form-header text-center py-4 bg-dark text-white">
+                    <h2 class="mb-0 fw-bold">Edit Review for {{ review.movie_name }}</h2>
+                </div>
+                
+                <form method="post" enctype="multipart/form-data" class="p-5">
+                    {% csrf_token %}
+                    
+                    <!-- Movie Name Field (Disabled for Editing) -->
+                    <div class="mb-4">
+                        <label for="{{ form.movie_name.id_for_label }}" class="form-label fw-semibold">Movie Title</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-film"></i></span>
+                            {{ form.movie_name }}
+                        </div>
+                        <small class="form-text text-muted ms-2">Movie title cannot be changed</small>
+                    </div>
+
+                    <!-- Rating Field -->
+                    <div class="mb-4">
+                        <label for="{{ form.rating.id_for_label }}" class="form-label fw-semibold">Your Rating</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-star"></i></span>
+                            {{ form.rating }}
+                        </div>
+                        <small class="form-text text-muted ms-2">Update your rating from 1 to 5 stars</small>
+                    </div>
+
+                    <!-- Review Field -->
+                    <div class="mb-4">
+                        <label for="{{ form.review.id_for_label }}" class="form-label fw-semibold">Review</label>
+                        <div class="input-group">
+                            <span class="input-group-text align-items-start"><i class="fas fa-comment-dots"></i></span>
+                            {{ form.review }}
+                        </div>
+                        <small class="form-text text-muted ms-2">Modify your review details</small>
+                    </div>
+
+                    <!-- Photo Field -->
+                    <div class="mb-4">
+                        <label for="{{ form.photo.id_for_label }}" class="form-label fw-semibold">Movie Poster/Screenshot</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-image"></i></span>
+                            {{ form.photo }}
+                        </div>
+                        <small class="form-text text-muted ms-2">Optional: Upload a new image (max 5MB)</small>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-5">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <button type="submit" class="btn btn-dark btn-lg w-100 fw-bold">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg w-100 fw-bold">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .professional-form-container {
+        background: white;
+        border: 1px solid rgba(0,0,0,0.1);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .form-header {
+        background-color: #2c3e50 !important;
+    }
+
+    .input-group {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .input-group-text {
+        background-color: #f4f6f7;
+        border: 1px solid #ced4da;
+        color: #2c3e50;
+    }
+
+    .form-control, .form-select {
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #2ecc71;
+        box-shadow: 0 0 0 0.2rem rgba(46,204,113,0.25);
+    }
+
+    
+    .form-label {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-text.text-muted {
+        color: #7f8c8d !important;
+        font-size: 0.8rem;
+    }
+
+</style>
